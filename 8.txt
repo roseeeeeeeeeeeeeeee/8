@@ -1,0 +1,60 @@
+以下是Python程序实现：
+def count_ways(start, end):
+    # 起始点和结束点的坐标
+    sx, sy = start
+    ex, ey = end
+    # 马走的8个方向（相对坐标）
+    directions = [(-1, -2), (-2, -1), (-2, 1), (-1, 2), (1, -2), (2, -1), (2, 1), (1, 2)]
+    # 记录能够到达每个点的方式数
+    ways = [[0 for _ in range(9)] for _ in range(10)]
+    ways[sx][sy] = 1 # 起始点只有一种方式到达
+    # 遍历每个点
+    for x in range(sx, ex+1):
+        for y in range(9):
+            # 遍历马能够走的每个方向
+            for dx, dy in directions:
+                nx, ny = x+dx, y+dy
+                if nx < sx or nx > ex or ny < 0 or ny > 8:
+                    # 越界的情况
+                    continue
+                ways[nx][ny] += ways[x][y] # 统计到达方式数
+    return ways[ex][ey] # 返回能够到达结束点的方式数
+
+start = (0, 0)
+end = (9, 8)
+ways = count_ways(start, end)
+print("从({},{})到({},{})有{}种方式".format(start[0], start[1], end[0], end[1], ways))
+在以上程序中，我们定义了一个 count_ways 函数，该函数接收起始点和结束点的坐标，返回从起始点到结束点的所有可能的路径数。在函数中，我们使用一个二维数组 ways 记录能够到达每个点的方式数，其中 ways[x][y] 表示从起始点到达坐标为 (x,y) 的点有多少种方式。然后我们通过遍历每个点以及马能够走的每个方向，统计出能够到达每个点的方式数。最后返回 ways[ex][ey] 即可得到从起始点到结束点的所有可能的路径数。
+
+
+
+以下是java代码实现：
+public class Chess {
+    private static final int[][] directions = {{-1, -2}, {-2, -1}, {-2, 1}, {-1, 2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}}; // 马走的8个方向（相对坐标）
+
+    public static int countWays(int sx, int sy, int ex, int ey) {
+        int[][] ways = new int[10][9]; // 记录能够到达每个点的方式数
+        ways[sx][sy] = 1; // 起始点只有一种方式到达
+        // 遍历每个点
+        for (int x = sx; x <= ex; x++) {
+            for (int y = 0; y <= 8; y++) {
+                // 遍历马能够走的每个方向
+                for (int[] direction : directions) {
+                    int dx = direction[0], dy = direction[1];
+                    int nx = x + dx, ny = y + dy;
+                    if (nx < sx || nx > ex || ny < 0 || ny > 8) { // 越界的情况
+                        continue;
+                    }
+                    ways[nx][ny] += ways[x][y]; // 统计到达方式数
+                }
+            }
+        }
+        return ways[ex][ey]; // 返回能够到达结束点的方式数
+    }
+
+    public static void main(String[] args) {
+        int ways = countWays(0, 0, 9, 8);
+        System.out.printf("从(%d,%d)到(%d,%d)有%d种方式", 0, 0, 9, 8, ways);
+    }
+}
+在以上代码中，我们定义了一个 countWays 静态方法，该方法接收起始点和结束点的坐标，返回从起始点到结束点的所有可能的路径数。在方法中，我们使用一个二维数组 ways 记录能够到达每个点的方法数，其中 ways[x][y] 表示从起始点到达坐标为 (x,y) 的点有多少种方法。然后我们通过遍历每个点以及马能够走的每个方向，统计出能够到达每个点的方法数。最后返回 ways[ex][ey] 即可得到从起始点到结束点的所有可能的路径数。我们在 main 方法中调用 countWays 方法，输出从起始点到结束点的所有可能的路径数。
